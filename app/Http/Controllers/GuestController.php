@@ -9,7 +9,8 @@ class GuestController extends Controller
 {
     public function index()
     {
-        $entries = Entry::all(); 
+        $entries = Entry::with('user')->paginate(10); 
+        //$entries = Entry::all(); 
         
         return view('welcome', compact('entries'));
     }
