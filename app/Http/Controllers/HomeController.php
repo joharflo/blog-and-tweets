@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entry;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,8 +22,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function myEntries()
+    {
+        //return view('home');
+        //$entries = Entry::with('user')->orderByDesc('created_at')->orderByDesc('id')->paginate(10); 
+        $entries = Entry::where('user_id',auth()->id())->get();
+        return view('home', compact('entries'));
+    }
+
     public function index()
     {
-        return view('home');
+        
+        $entries = Entry::with('user')->orderByDesc('created_at')->orderByDesc('id')->paginate(10); 
+        //$entries = Entry::all();        
+        return view('welcome', compact('entries'));
     }
 }
